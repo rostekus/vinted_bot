@@ -3,8 +3,8 @@ from requests import get
 import re
 import time
 import sqlite3
+import csv
 
-# doesnt correctly search for addiotional
 # SAVE TO XML/ CSC 
 # send to email
 #brak rzeczy
@@ -56,23 +56,10 @@ class VintedBot:
         with open('hello.html', 'w') as f:
             f.write(soup)
         # change to regex
-        string = '"is_favourite":false,"is_hated":false},"url":"'
-        a = [m.start() for m in re.finditer(string, soup)]
-
-        links = []
-        for j in range(len(a)):
-            start = a[j] + 46
-            finish = 0
-            for i in range(start + 1, start + 1000):
-
-                # print(i)
-                if soup[i] == '"':
-                    finish = i
-                    break
-
-            links.append(soup[start:finish])
-            print(links)
-            time.sleep(10)
+        pattern = '"is_hated":false},"url":"(.*?)","a'
+        links = [x.group(1) for x in re.finditer(pattern, soup)]
+        print(links)
+        time.sleep(10)
         return links
 
     def get_arr(self, URL):
@@ -121,26 +108,30 @@ class VintedBot:
 
                 
             num_page += 1
+        self.close_conn()
+
 
     def save_to_db(self, link, num, username):
         
         self.curr.execute('SELECT user FROM clothes WHERE user = ?', (username,))
         row = self.curr.fetchone()
         if row is None:
-            print("dodawanie")
             self.curr.execute('INSERT INTO clothes VALUES (?, ?, ?)', (username, num,link,))
             self.conn.commit()
+    
+    def save_to_csv(self):
+        data = self.conn.execute('SELECT * FROM clothes')
+        with open('data.csv', 'w' ) as f:
+            writer = csv.writer(f)
+            writer.writerow(['user', 'num', 'link'])
+            writer.writerows(data)
+
 
     def get_username(self,link):
         page = get(link)
         bs = BeautifulSoup(page.content, 'html.parser')
         page_string  = bs.prettify()
         user = re.search('path":"/member/\d{6,7}\-(.*?)","i', page_string).group(1)
-        # if user is None:
-        #     user = re.search('path":"/member/\d\d\d\d\d\d-(.*?)","i', page_string).group(1)
-        #     user.group(1)
-        # else:
-        #     user = user.group(1)
         return user
 
 
