@@ -6,7 +6,7 @@ from sys import argv
 # check regex for adress
 
 
-BASE_URL = 'https://www.vinted.pl/ubrania?search_text=house&brand_id[]=11&catalog[]=2050&currency=PLN&search_id=471276307'
+BASE_URL = 'https://www.vinted.pl/ubrania?currency=PLN&search_id=471687498&status[]=6&status[]=1&status[]=2&size_id[]=208&order=price_low_to_high&brand_id[]=20682&brand_id[]=9&brand_id[]=123&brand_id[]=91&price_to=15'
 if __name__ == '__main__':
 
     if(argv[1] == 'setup'):
