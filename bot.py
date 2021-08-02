@@ -10,7 +10,7 @@ import csv
 #brak rzeczy
 #multitreading
 # obserwacja osób ktore mają przedmitoy
-BASE_URL = 'https://www.vinted.pl/ubrania?search_text=house&search_id=471276307&catalog[]=2050&brand_id[]=11'
+BASE_URL = 'https://www.vinted.pl/ubrania?currency=PLN&search_id=471687498&status[]=6&status[]=1&status[]=2&size_id[]=208&order=price_low_to_high&brand_id[]=20682&brand_id[]=9&brand_id[]=123&brand_id[]=91&price_to=15'
 
 USER_BRANDS = ['zara']
 
@@ -18,14 +18,15 @@ USER_BRANDS = ['zara']
 class VintedBot:
 
     def __init__(self, base_url, user_brand, user_size, user_price,user_number_of_clothes):
-        self.base_url = base_url
-        self.user_brand = user_brand
-        self.user_price = user_price
-        self.user_size = user_size
+        self.base_url = base_url #URL for searching
+        self.user_brand = user_brand # brands for searching
+        self.user_price = user_price # max price
+        self.user_size = user_size # size for searching
         self.user_number_of_clothes = user_number_of_clothes
         self.ts = ts = int(time.time())
         self.curr, self.conn  = self.connect_db()
         
+    # connecting to database
     def connect_db(self):
         conn = sqlite3.connect('ubrania.db')
         curr = conn.cursor()
@@ -33,7 +34,7 @@ class VintedBot:
         CREATE TABLE IF NOT EXISTS clothes (user TEXT, num INTEGER, link TEXT)""")
         return curr, conn
 
-
+    # check if user has more mathing searching clothes
     def check_user(self, brands, prices, sizes,link):
         number_of_right_element = 0
         for brand in self.user_brand:
@@ -47,7 +48,7 @@ class VintedBot:
             return username, number_of_right_element
         return False, False
 
-
+    # getting offers link from vinted page
     def get_links(self, URL):
         
         page = get(URL)
@@ -58,10 +59,9 @@ class VintedBot:
         # change to regex
         pattern = '"is_hated":false},"url":"(.*?)","a'
         links = [x.group(1) for x in re.finditer(pattern, soup)]
-        print(links)
-        time.sleep(10)
         return links
 
+    # getting array with prices, brands, and clothes sizes
     def get_arr(self, URL):
         page = get(URL)
         bs = BeautifulSoup(page.content, 'html.parser')
@@ -74,8 +74,8 @@ class VintedBot:
                                       soup.find_all('a', class_='item-box__brand'),
                                       soup.find_all('div', class_='u-ui-margin-right-small')):
             size = size.get_text()
-
-            price = int(price.get_text().rstrip("'").split(',')[0])
+            print(price)
+            price = int(price.get_text().rstrip("'").replace(' ','').split(',')[0])
             brand = str(brand)
             i =41
             for i in range(41, 51):
@@ -110,15 +110,18 @@ class VintedBot:
             num_page += 1
         self.close_conn()
 
-
+    # save found user to database
     def save_to_db(self, link, num, username):
-        
+        print(username)
         self.curr.execute('SELECT user FROM clothes WHERE user = ?', (username,))
         row = self.curr.fetchone()
+    
         if row is None:
             self.curr.execute('INSERT INTO clothes VALUES (?, ?, ?)', (username, num,link,))
             self.conn.commit()
+            print(f'Dodano {username}')
     
+    # save database to csv file
     def save_to_csv(self):
         data = self.conn.execute('SELECT * FROM clothes')
         with open('data.csv', 'w' ) as f:
@@ -126,20 +129,22 @@ class VintedBot:
             writer.writerow(['user', 'num', 'link'])
             writer.writerows(data)
 
-
+    # getting username from vintedpage 
     def get_username(self,link):
         page = get(link)
         bs = BeautifulSoup(page.content, 'html.parser')
+        #print(link)
         page_string  = bs.prettify()
-        user = re.search('path":"/member/\d{6,7}\-(.*?)","i', page_string).group(1)
+        user = re.search('path":"\/member\/\d{5,7}\-(.*?)","i', page_string).group(1)
+        
         return user
 
 
-
+    # close connection 
     def close_conn(self):
         self.conn.close()
 
 
 if __name__ == '__main__':
-    bot = VintedBot(BASE_URL, ['house'], 'M', 100, 1)
+    bot = VintedBot(BASE_URL, ['zara', 'medicine', 'mango'], 'M', 15, 2)
     bot.start()
