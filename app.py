@@ -60,8 +60,7 @@ class App:
         return list(text.lower().replace(' ','').split(','))
 
 
-    
-
+    # check if url is corrected
     def check_url(self):
         pass
 
@@ -131,6 +130,5 @@ class App:
 
 if __name__ == '__main__':
     app = App()
-    app.statistics_db()
 
         
