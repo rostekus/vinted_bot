@@ -20,11 +20,11 @@ import re
 class App:
 
     def __init__(self):
-        # self.url, self.brands, self.size, self.price, self.num_of_clothes= self.setup()
-        #self.vinbot = bot.VintedBot(self.url, self.brands, self.size, self.price , self.num_of_clothes)
-        #while(True):
-            #self.vinbot.start()
-        pass
+        self.url, self.brands, self.size, self.price, self.num_of_clothes= self.setup()
+        
+        self.vinbot = bot.VintedBot(self.url, self.brands, self.size, self.price , self.num_of_clothes)
+        while(True):                    
+            self.vinbot.start()
     
     def setup(self):
         setup_file = Path('config.ini')
@@ -54,8 +54,9 @@ class App:
             print(parser.get('set', 'url'))
             #check if are correctly written
             brands = self.string_2_list(parser.get('set', 'brands'))
-            return parser.get('set', 'url'),brands,parser.get('set', 'size'),1,1
 
+            return parser.get('set', 'url'),brands,parser.get('set', 'size'),int(parser.get('set', 'price')),int(parser.get('set', 'number'))
+                         
     def string_2_list(self,text):
         return list(text.lower().replace(' ','').split(','))
 
