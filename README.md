@@ -1,5 +1,6 @@
-# Vinted Bot
+Due to changes of the source code of vinted website, bot lost it's functionallity :(
 
+# Vinted Bot
 The bot was created for founding clothes on popular site for selling clothes vinted.com. If you want to save money, it is good idea to not to buy one clothing from user as you the price of shipping stays the same no matter how many clothes you are buying. Unfortunately it takes much more time to check if the user has more then just one piece of clothing mathing you. 
 
 ## Features
@@ -25,50 +26,27 @@ The config.ini will be created. If you want to change credentials just run again
 Example:
 
 * Step-by-step bullets
+
 ```
 python3 app.py --url https://www.vinted.pl/... --brands zara,hm --price 15
 ```
 
-### Executing program
 
-* How to run the program
-* Step-by-step bullets
-```
-python3 app.py
-```
-
-
-## Help
-
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
 
 ## Authors
 
 Contributors names and contact info
 
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
-
-## Version History
-
-* 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]()
-* 0.1
-    * Initial Release
+Rostyslav Mosorov 
+[rmosorov@icloud.com](rmosorov@icloud.com)
 
 ## License
+MIT License
 
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+Copyright (c) [2021] [Rostyslav Mosorov]
 
-## Acknowledgments
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-Inspiration, code snippets, etc.
-* [awesome-readme](https://github.com/matiassingers/awesome-readme)
-* [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-* [dbader](https://github.com/dbader/readme-template)
-* [zenorocha](https://gist.github.com/zenorocha/4526327)
-* [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
