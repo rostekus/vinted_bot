@@ -1,4 +1,4 @@
-Due to changes of the source code of vinted website, bot lost it's functionallity :(
+# Due to changes of the source code of vinted website, bot lost it's functionallity :(
 
 # Vinted Bot
 The bot was created for founding clothes on popular site for selling clothes vinted.com. If you want to save money, it is good idea to not to buy one clothing from user as you the price of shipping stays the same no matter how many clothes you are buying. Unfortunately it takes much more time to check if the user has more then just one piece of clothing mathing you. 
